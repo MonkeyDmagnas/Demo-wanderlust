@@ -1,6 +1,4 @@
-sudo kubeadm config images pull
-
-sudo kubeadm init
+sudo kubeadm init --pod-network-cidr=10.10.0.1/16 --apiserver-advertise-address=192.168.56.20
 
 mkdir -p "$HOME"/.kube
 sudo cp -i /etc/kubernetes/admin.conf "$HOME"/.kube/config
