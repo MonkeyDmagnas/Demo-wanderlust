@@ -33,14 +33,13 @@ jobs:
           remote_path: /var/www/html/frontend/
           sftpArgs: -o ConnectTimeout=5
 
-      - name: Unzip on server
+      - name: multiple command
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.SFTP_SERVER }}
-          username: ${{ secrets.SFTP_USER }}
-          key: ${{ secrets.SFTP_KEY }}
-          password: "sangam123"
-          port: ${{ secrets.SFTP_PORT }}
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USERNAME }}
+            key: ${{ secrets.SFTP_KEYKEY }}
+            port: ${{ secrets.SFTP_PORT }}
           script: |
             cd /var/www/html/frontend
             unzip build.zip
