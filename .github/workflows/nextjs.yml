@@ -44,5 +44,6 @@ jobs:
           script: |
             cd /var/www/html/frontend
             unzip build.zip
+            cd frontend
             pm2 start npm --name wanderlust-frontend -- run dev -- --PORT 80
-            rm build.zip                                                                                                                                                                        
+            rm -rf /var/www/html/frontend/build.zip                                                                                                                                                                        
