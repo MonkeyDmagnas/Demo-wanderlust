@@ -28,7 +28,7 @@ jobs:
           username: ${{ secrets.SFTP_USER }}
           server: ${{ secrets.SFTP_SERVER }}
           port: ${{ secrets.SFTP_PORT }}
-          ssh_private_key: ${{ secrets.SFTP_SSH_PRIVATE_KEY }}
+          ssh_private_key: ${{ secrets.SFTP_KEY }}
           local_path: build.zip
           remote_path: /var/www/html/frontend/
           sftpArgs: -o ConnectTimeout=5
@@ -38,7 +38,8 @@ jobs:
         with:
           host: ${{ secrets.SFTP_SERVER }}
           username: ${{ secrets.SFTP_USER }}
-          key: ${{ secrets.SFTP_SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SFTP_KEY }}
+          password: "sangam123"
           port: ${{ secrets.SFTP_PORT }}
           script: |
             cd /var/www/html/frontend
