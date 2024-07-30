@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/staging
 name: Deploy Next.js site to Pages
 
 on:
