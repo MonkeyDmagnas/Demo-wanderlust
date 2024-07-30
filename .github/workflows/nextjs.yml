@@ -38,7 +38,7 @@ jobs:
         with:
           host: ${{ secrets.SFTP_SERVER }}
           username: ${{ secrets.SFTP_USER }}
-          password: 'sangam123'
+          key: ${{ secrets.SFTP_SSH_PRIVATE_KEY }}
           port: ${{ secrets.SFTP_PORT }}
           script: |
             cd /var/www/html/frontend
