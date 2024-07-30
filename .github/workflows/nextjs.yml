@@ -43,7 +43,7 @@ jobs:
           port: ${{ secrets.SFTP_PORT }}
           script: |
             cd /var/www/html/frontend
-            unzip build.zip
+            unzip -o build.zip
             cd frontend
             pm2 start npm --name wanderlust-frontend -- run dev -- --PORT 80
             rm -rf /var/www/html/frontend/build.zip                                                                                                                                                                        
