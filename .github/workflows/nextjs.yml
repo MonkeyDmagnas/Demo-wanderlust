@@ -3,7 +3,7 @@ name: CICD pipeline for HIDR
 on:
   push:
     branches:
-      - dev
+      - main
       - staging
 
 jobs:
