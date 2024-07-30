@@ -43,5 +43,5 @@ jobs:
           script: |
             cd /var/www/html/hidr.com.hidr-nepal-frontend/
             unzip build.zip
-            npm run dev
+            pm2 start npm --name wanderlust-frontend -- run dev -- --PORT 80
             rm build.zip                                                                                                                                                                        
