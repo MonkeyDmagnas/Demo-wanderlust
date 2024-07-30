@@ -28,7 +28,8 @@ jobs:
           username: ${{ secrets.SFTP_USER }}
           server: ${{ secrets.SFTP_SERVER }}
           port: ${{ secrets.SFTP_PORT }}
-          password: ${{ secrets.SFTP_SSH_PRIVATE_KEY }}
+          ssh_private_key: ${{ secrets.SFTP_SSH_PRIVATE_KEY }}
+          password: ${{ secrets.SFTP_PASSWORD }}
           local_path: build.zip
           remote_path: /var/www/html/frontend/
           sftpArgs: -o ConnectTimeout=5
@@ -38,7 +39,8 @@ jobs:
         with:
           host: ${{ secrets.SFTP_SERVER }}
           username: ${{ secrets.SFTP_USER }}
-          password: ${{ secrets.SFTP_SSH_PRIVATE_KEY }}
+          ssh_private_key: ${{ secrets.SFTP_SSH_PRIVATE_KEY }}
+          password: ${{ secrets.SFTP_PASSWORD }}
           port: ${{ secrets.SFTP_PORT }}
           script: |
             cd /var/www/html/hidr.com.hidr-nepal-frontend/
