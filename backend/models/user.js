@@ -84,7 +84,7 @@ userSchema.methods = {
       },
       JWT_SECRET,
       {
-        expiresIn: ACCESS_TOKEN_EXPIRES_IN,
+        expiresIn: ACCESS_TOKEN_EXPIRES_IN || '2m',
       }
     );
   },
@@ -98,7 +98,7 @@ userSchema.methods = {
       },
       JWT_SECRET,
       {
-        expiresIn: REFRESH_TOKEN_EXPIRES_IN,
+        expiresIn: REFRESH_TOKEN_EXPIRES_IN || '7d',
       }
     );
   },
