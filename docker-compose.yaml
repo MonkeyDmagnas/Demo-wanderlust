@@ -1,0 +1,40 @@
+version: "3.8"
+services:
+  mongo: 
+    container_name: mongo
+    image: mongo:latest
+    volumes: 
+      - ./backend/data:/data
+    networks:
+      - wanderlust
+    ports:
+      - "27017:27017"
+  
+  backend:
+    container_name: backend
+    build: ./backend
+    env_file:
+      - ./backend/.env
+    networks:
+      - wanderlust
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    env_file:
+      - ./frontend/.env.local
+    networks:
+       - wanderlust
+    ports:
+      - "5173:5173"
+
+networks:
+  wanderlust:
+    external: true
+
+volumes:
+   data:
