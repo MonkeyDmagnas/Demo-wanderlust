@@ -29,6 +29,10 @@ jobs:
             npm install
             npm run build
 
+      - name: Install ESLint
+        run: npm install eslint@9.10.0 --save-dev
+        working-directory: ./frontend
+        
       - name: Run linters
         uses: wearerequired/lint-action@v2
         with:
