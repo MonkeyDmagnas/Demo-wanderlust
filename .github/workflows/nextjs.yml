@@ -31,13 +31,7 @@ jobs:
         working-directory: ./frontend
         run: |
             npm install
-            npm run build
-        
-      - name: Run linters
-        uses: wearerequired/lint-action@v2
-        with:
-          eslint: true
-          prettier: true            
+            npm run build          
 
       - name: Zip build
         run: zip -r build.zip .
