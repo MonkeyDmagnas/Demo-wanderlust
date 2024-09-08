@@ -17,6 +17,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 22
+      - name: Install ESLint
+        run: npm install eslint@8.57.0 --save-dev
+        working-directory: ./frontend
 
       # ESLint and Prettier must be in `package.json`
       - name: Install Node.js dependencies
@@ -28,10 +31,6 @@ jobs:
         run: |
             npm install
             npm run build
-
-      - name: Install ESLint
-        run: npm install eslint@9.10.0 --save-dev
-        working-directory: ./frontend
         
       - name: Run linters
         uses: wearerequired/lint-action@v2
