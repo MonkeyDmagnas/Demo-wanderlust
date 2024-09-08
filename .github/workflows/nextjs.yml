@@ -22,17 +22,17 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
 
-      - name: Run linters
-        uses: wearerequired/lint-action@v2
-        with:
-          eslint: true
-          prettier: true
-
       - name: Install and build
         working-directory: ./frontend
         run: |
             npm install
             npm run build
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          eslint: true
+          prettier: true            
 
       - name: Zip build
         run: zip -r build.zip .
