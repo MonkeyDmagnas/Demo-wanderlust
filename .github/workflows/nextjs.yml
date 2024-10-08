@@ -1,4 +1,68 @@
-name: CICD pipeline for Wanderlust
+# name: CICD pipeline for Wanderlust
+
+# on:
+#   push:
+#     branches:
+#       - main
+#       - staging
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v1
+#         with:
+#           node-version: 22.8.0
+
+#       - name: Install ESLint
+#         run: npm install eslint@8.57.0 --save-dev
+#         working-directory: ./frontend
+        
+#       # ESLint and Prettier must be in `package.json`
+#       - name: Install Node.js dependencies
+#         working-directory: ./frontend
+#         run: npm ci
+
+#       - name: Install and build
+#         working-directory: ./frontend
+#         run: |
+#             npm install
+#             npm run build          
+
+#       - name: Zip build
+#         run: zip -r build.zip .
+
+#       - name: Deploy to server
+#         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+#         with:
+#           username: ${{ secrets.SFTP_USER }}
+#           server: ${{ secrets.SFTP_SERVER }}
+#           port: ${{ secrets.SFTP_PORT }}
+#           ssh_private_key: ${{ secrets.SFTP_PRIVATE_KEY }}
+#           local_path: build.zip
+#           remote_path: /var/www/html/frontend/
+#           sftpArgs: -o ConnectTimeout=5
+
+#       - name: Unzip on server
+#         uses: appleboy/ssh-action@v1.0.3
+#         with:
+#           host: ${{ secrets.SFTP_SERVER }}
+#           username: ${{ secrets.SFTP_USER }}
+#           key: ${{ secrets.SFTP_PRIVATE_KEY }}
+#           port: ${{ secrets.SFTP_PORT }}
+#           script: |
+#             cd /var/www/html/frontend
+#             unzip -o build.zip
+#             cd frontend
+#             pip install pm2 -g
+#             pm2 start npm --name wanderlust-frontend -- run dev -- --PORT 80
+#             rm -rf /var/www/html/frontend/build.zip                                                                                                                                                                        
+
+name: Wanderlust-CI
 
 on:
   push:
@@ -10,54 +74,39 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      -
+        name: Checkout
         uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v1
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v3
         with:
-          node-version: 22.8.0
-
-      - name: Install ESLint
-        run: npm install eslint@8.57.0 --save-dev
-        working-directory: ./frontend
-        
-      # ESLint and Prettier must be in `package.json`
-      - name: Install Node.js dependencies
-        working-directory: ./frontend
-        run: npm ci
-
-      - name: Install and build
-        working-directory: ./frontend
-        run: |
-            npm install
-            npm run build          
-
-      - name: Zip build
-        run: zip -r build.zip .
-
-      - name: Deploy to server
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          
+  Frontend-Build:
+      runs-on: ubuntu-latest
+      needs: build
+      steps:   
+      - name: Build and push
+        uses: docker/build-push-action@v6
         with:
-          username: ${{ secrets.SFTP_USER }}
-          server: ${{ secrets.SFTP_SERVER }}
-          port: ${{ secrets.SFTP_PORT }}
-          ssh_private_key: ${{ secrets.SFTP_PRIVATE_KEY }}
-          local_path: build.zip
-          remote_path: /var/www/html/frontend/
-          sftpArgs: -o ConnectTimeout=5
-
-      - name: Unzip on server
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SFTP_SERVER }}
-          username: ${{ secrets.SFTP_USER }}
-          key: ${{ secrets.SFTP_PRIVATE_KEY }}
-          port: ${{ secrets.SFTP_PORT }}
-          script: |
-            cd /var/www/html/frontend
-            unzip -o build.zip
-            cd frontend
-            pip install pm2 -g
-            pm2 start npm --name wanderlust-frontend -- run dev -- --PORT 80
-            rm -rf /var/www/html/frontend/build.zip                                                                                                                                                                        
+          context: ./frontend
+          push: true
+          tags: monkeydmagnas007/frontend:v1.0
+  Backend-Build:
+      runs-on: ubuntu-latest
+      needs: Frontend-Build
+      steps:
+      -  name: Build and push
+         uses: docker/build-push-action@v6
+         with:
+            context: ./backend
+            push: true
+            tags: monkeydmagnas007/backend:v1.0
