@@ -97,7 +97,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: ./frontend
+          context: ./frontend/
           push: true
           tags: monkeydmagnas007/frontend:v1.0
   Backend-Build:
@@ -107,6 +107,6 @@ jobs:
       -  name: Build and push
          uses: docker/build-push-action@v6
          with:
-            context: ./backend
+            context: ./backend/
             push: true
             tags: monkeydmagnas007/backend:v1.0
