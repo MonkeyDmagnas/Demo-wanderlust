@@ -1,74 +1,10 @@
-# name: CICD pipeline for Wanderlust
 
-# on:
-#   push:
-#     branches:
-#       - main
-#       - staging
-
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v4
-
-#       - name: Set up Node.js
-#         uses: actions/setup-node@v1
-#         with:
-#           node-version: 22.8.0
-
-#       - name: Install ESLint
-#         run: npm install eslint@8.57.0 --save-dev
-#         working-directory: ./frontend
-        
-#       # ESLint and Prettier must be in `package.json`
-#       - name: Install Node.js dependencies
-#         working-directory: ./frontend
-#         run: npm ci
-
-#       - name: Install and build
-#         working-directory: ./frontend
-#         run: |
-#             npm install
-#             npm run build          
-
-#       - name: Zip build
-#         run: zip -r build.zip .
-
-#       - name: Deploy to server
-#         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-#         with:
-#           username: ${{ secrets.SFTP_USER }}
-#           server: ${{ secrets.SFTP_SERVER }}
-#           port: ${{ secrets.SFTP_PORT }}
-#           ssh_private_key: ${{ secrets.SFTP_PRIVATE_KEY }}
-#           local_path: build.zip
-#           remote_path: /var/www/html/frontend/
-#           sftpArgs: -o ConnectTimeout=5
-
-#       - name: Unzip on server
-#         uses: appleboy/ssh-action@v1.0.3
-#         with:
-#           host: ${{ secrets.SFTP_SERVER }}
-#           username: ${{ secrets.SFTP_USER }}
-#           key: ${{ secrets.SFTP_PRIVATE_KEY }}
-#           port: ${{ secrets.SFTP_PORT }}
-#           script: |
-#             cd /var/www/html/frontend
-#             unzip -o build.zip
-#             cd frontend
-#             pip install pm2 -g
-#             pm2 start npm --name wanderlust-frontend -- run dev -- --PORT 80
-#             rm -rf /var/www/html/frontend/build.zip                                                                                                                                                                        
-
-name: Wanderlust-CI
+name: Wanderlust-Continous-Integretion
 
 on:
   push:
     branches:
       - main
-      - staging
 
 jobs:
   frontend-build:
