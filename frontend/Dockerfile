@@ -1,5 +1,5 @@
 # ------------------- Stage 1: Build Stage ------------------------------
-FROM node:21 AS frontend-builder
+FROM node:23-alpine AS frontend-builder
 
 # Set the working directory to /app
 WORKDIR /app
@@ -8,12 +8,12 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --upgrade npm 
+RUN npm install 
 # Copy the rest of the application code
 COPY . .
 
 # ------------------- Stage 2: Final Stage ------------------------------
-FROM node:21-alpine
+FROM node:23-alpine
 
 # Set the working directory to /app
 WORKDIR /app
