@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   mongodb:
-    image: "monkeydmagnas007/mongodb"
+    image: "monkeydmagnas007/mongodb:beta-version"
     container_name: "mongodb"
     command: ["bin/bash","-c","mongoimport --db wanderlust --collection posts --file sample_posts.json --jsonArray"]
     ports:
