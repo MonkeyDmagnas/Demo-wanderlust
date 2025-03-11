@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  mongodb:
+    image: "monkeydmagnas007/mongodb"
+    container_name: "mongodb"
+    command: ["bin/bash","-c","mongoimport --db wanderlust --collection posts --file sample_posts.json --jsonArray"]
+    ports:
+      - "27017:27017"
+    networks:
+      - wanderlust_0
+    restart: always
+
+  backend:
+    image: "monkeydmagnas007/wanderlust-backend:poush-batch"
+    container_name: "backend"
+    environment:
+      - PORT=5000
+      - MONGODB_URI=mongodb://mongodb:27017/wanderlust
+      - CORS_ORIGIN=http://192.168.56.20:5173
+      - FRONTEND_URL=http://192.168.56.20:5173
+    ports:
+      - "5000:5000"
+    networks:
+      - wanderlust_0
+    restart: always
+
+  frontend:
+    image: "monkeydmagnas007/wanderlust-backend:poush-batch"
+    container_name: "frontend"
+    environment:
+      - VITE_API_PATH=http://192.168.56.20:5000
+    ports:
+      - "5173:5173"
+    networks:
+      - wanderlust_0
+    restart: always
+
+networks:
+  wanderlust_0:
+    name: "wanderlust"
+    driver: bridge
