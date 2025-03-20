@@ -75,7 +75,7 @@ jobs:
           target: /home/ubuntu/
   
   File-transfer-bash-script:  
-    name: Copy Docker Compose file to Server
+    name: Copy bash script to Server
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -98,5 +98,6 @@ jobs:
       key: ${{ secrets.SSH_KEY }}
       port: ${{ secrets.PORT }}
       script: |
-        whoami
-        ls -al
+        bash /home/ubuntu/docker.sh
+        docker login -u monkeydmagnas007 -p ${{ secrets.DOCKERHUB_PASSWORD }}
+        docker-compose up -d
