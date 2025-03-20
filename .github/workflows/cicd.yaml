@@ -58,3 +58,45 @@ jobs:
             context: ./backend/
             push: true
             tags: monkeydmagnas007/wanderlust-git:backend
+
+  File-Transfer-dockercompose:
+    name: Copy Docker Compose file to Server
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          source: "docker-compose.yaml"
+          target: /home/ubuntu/
+  
+  File-transfer-bash-script:  
+    name: Copy Docker Compose file to Server
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          source: "docker.sh"
+          target: /home/ubuntu/
+
+  Deploy:
+  - name: multiple command
+    uses: appleboy/ssh-action@v1
+    with:
+      host: ${{ secrets.HOST }}
+      username: ${{ secrets.USERNAME }}
+      key: ${{ secrets.SSH_KEY }}
+      port: ${{ secrets.PORT }}
+      script: |
+        whoami
+        ls -al
