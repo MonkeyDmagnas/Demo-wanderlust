@@ -1,4 +1,5 @@
 # ------------------- Stage 1: Build Stage ------------------------------
+
 FROM node:23-alpine AS frontend-builder
 
 # Set the working directory to /app
@@ -13,6 +14,7 @@ RUN npm install --upgradable npm
 COPY . .
 
 # ------------------- Stage 2: Final Stage ------------------------------
+
 FROM node:23-alpine
 
 # Set the working directory to /app
