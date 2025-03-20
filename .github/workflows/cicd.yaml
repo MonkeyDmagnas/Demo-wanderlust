@@ -63,7 +63,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           source: "docker-compose.yaml"
-          target: /home/ubuntu/
+          target: /home/azureuser/
 
   file-transfer-bash-script:
     name: Copy bash script to Server
@@ -79,7 +79,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           source: "docker.sh"
-          target: /home/ubuntu/
+          target: /home/azureuser/
 
   deploy:
     name: Deploy Application
@@ -94,7 +94,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            bash /home/ubuntu/docker.sh
+            bash /home/azureuser/docker.sh
             echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login --username "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
             docker-compose up -d
             docker system prune -f
