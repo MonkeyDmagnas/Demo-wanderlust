@@ -29,4 +29,4 @@ jobs:
          with:
             context: ./backend/
             push: true
-            tags: monkeydmagnas007/wanderlust-backend-kubernetes:latest
+            tags: monkeydmagnas007/wanderlust-backend:test-branch
