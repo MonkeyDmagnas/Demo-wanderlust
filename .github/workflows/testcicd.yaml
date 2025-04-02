@@ -30,3 +30,16 @@ jobs:
             context: ./backend/
             push: true
             tags: monkeydmagnas007/wanderlust-backend:test-branch
+
+  Docker-compose Transfer:
+    runs-on: ubuntu-latest
+    steps:
+    - name: copy file via ssh key
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        port: ${{ secrets.PORT }}
+        key: ${{ secrets.KEY }}
+        source: "docker-compose.yaml"
+        target: /home/azureuser/
