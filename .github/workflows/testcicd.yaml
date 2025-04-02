@@ -25,7 +25,6 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: ./backend
-          file: ./backend/Dockerfile
+          context: ./backend/
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/wanderlust-backend:test-branch
