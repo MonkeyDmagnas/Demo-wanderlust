@@ -27,7 +27,7 @@ jobs:
           push: true
           tags: monkeydmagnas007/wanderlust-backend:test-branch
 
-  Docker-compose Transfer:
+  Docker-compose-Transfer:
     runs-on: ubuntu-latest
     steps:
       - name: copy file via ssh key
