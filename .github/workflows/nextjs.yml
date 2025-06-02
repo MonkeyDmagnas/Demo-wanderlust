@@ -59,3 +59,26 @@ jobs:
             context: ./backend/
             push: true
             tags: monkeydmagnas007/wanderlust-backend-kubernetes:latest
+
+  Deploy-wanderlust:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copy Docker-compose file to Production server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          source: "docker-compose.yaml"
+          target: /home/ubuntu
+
+      - name: Execute remote SSH commands using SSH key
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: whoami
