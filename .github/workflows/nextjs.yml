@@ -72,7 +72,7 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           source: "docker-compose.yaml"
-          target: /home/ubuntu
+          target: /home/azureuser
 
       - name: Execute remote SSH commands using SSH key
         uses: appleboy/ssh-action@v1
@@ -81,4 +81,9 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
-          script: whoami
+          script: |
+            cd /home/azureuser/
+            sudo docker-compose pull
+            sudo docker-compose down
+            sudo docker-compose up -d
+            sudo docker system prune -f
