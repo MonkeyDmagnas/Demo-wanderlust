@@ -17,8 +17,8 @@ services:
     environment:
       - PORT=5000
       - MONGODB_URI=mongodb://mongodb:27017/wanderlust
-      - CORS_ORIGIN=http://192.168.56.20:5173
-      - FRONTEND_URL=http://192.168.56.20:5173
+      - CORS_ORIGIN=http://20.119.78.4:5173
+      - FRONTEND_URL=http://20.119.78.4:5173
     ports:
       - "5000:5000"
     networks:
@@ -29,7 +29,7 @@ services:
     image: "monkeydmagnas007/wanderlust-frontend:poush-batch"
     container_name: "frontend"
     environment:
-      - VITE_API_PATH=http://192.168.56.20:5000
+      - VITE_API_PATH=http://20.119.78.4:5000
     ports:
       - "5173:5173"
     networks:
