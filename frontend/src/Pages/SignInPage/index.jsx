@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { AxiosError, isAxiosError } from "axios";
 import axiosInstance from "../../helpers/axiosInstance";
 import userState from "../../utils/UserState";
+import Cookies from "js-cookie";
 // import ThemeToggle from "@/components/theme-toggle-button";
 
 // import EyeIcon from "@/assets/svg/eye.svg";
@@ -35,9 +36,23 @@ function Signin() {
           render({ data }) {
             const userId = data?.data?.data?._id;
             const userRole = data?.data?.data?.role;
-            console.log("data", data);
-            console.log("user", userId);
-            console.log("role", userRole);
+            const accessToken = data?.data?.accessToken;
+            const refreshToken = data?.data?.accessToken;
+
+            Cookies.set("accessToken", accessToken, {
+              expires: 7,
+              secure: false,
+              sameSite: "lax",
+              path: "/",
+            });
+
+            Cookies.set("refreshToken", refreshToken, {
+              expires: 7,
+              secure: false,
+              sameSite: "lax",
+              path: "/",
+            });
+
             userState.setUser({ _id: userId, role: userRole });
             reset();
             navigate("/");
